@@ -12,7 +12,8 @@ const dataState = {
   spadesHasQ: false,
   heartsHasQ: false,
   clubsHasQ: false,
-  remaining: 48,
+  remaining: 52,
+  gameFinished: false,
 };
 
 const values = [
@@ -34,14 +35,16 @@ const values = [
 export function drawCard() {
   return (dispatch, getState) => {
     const state = getState();
-    //SI TODAS LAS PILAS TIENEN Q, RETORNAR
+    if (state.draw.gameFinished) return;
     if (
-      state.draw.clubsHasQ &&
-      state.draw.heartsHasQ &&
+      state.draw.diamondsHasQ &&
       state.draw.spadesHasQ &&
-      state.draw.diamondsHasQ
-    )
+      state.draw.heartsHasQ &&
+      state.draw.clubsHasQ
+    ) {
+      dispatch({ type: "FINISH_GAME" });
       return;
+    }
     dispatch({ type: "GET_CARD_LOADING", payload: true });
     axios
       .request(
@@ -82,15 +85,20 @@ export default function drawReducer(state = dataState, action) {
     case "GET_CARD":
       return {
         ...state,
-        [action.pileName]: [...state[action.pileName], action.payload].sort(
-          (a, b) => values.indexOf(b.value) - values.indexOf(a.value)
-        ),
+        [action.pileName]: [
+          ...state[action.pileName],
+          action.payload.value === "QUEEN"
+            ? { ...action.payload, found: true }
+            : { ...action.payload, found: false },
+        ].sort((a, b) => values.indexOf(b.value) - values.indexOf(a.value)),
         [action.pileName + "HasQ"]:
           action.payload.value === "QUEEN"
             ? true
             : state[action.pileName + "HasQ"],
         remaining: state.remaining - 1,
       };
+    case "FINISH_GAME":
+      return { ...state, gameFinished: true };
     case "GET_CARD_LOADING":
       return { ...state, loading: action.payload };
     case "GET_CARD_ERROR":

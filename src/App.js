@@ -15,13 +15,16 @@ var interval = null;
 
 const App = () => {
   const dispatch = useDispatch();
-  const { dQ, hQ, cQ, sQ, remaining, suits } = usePartStates();
+  const { gameFinished, remaining, suits } = usePartStates();
 
   useEffect(() => {
     dispatch(getNewDeck());
   }, [dispatch]);
 
-  const stopStuff = () => clearInterval(interval);
+  const stopStuff = () => {
+    clearInterval(interval);
+    interval = null;
+  };
   const startStuff = () =>
     !interval
       ? (interval = setInterval(() => dispatch(drawCard()), 1000))
@@ -31,19 +34,18 @@ const App = () => {
     <Board>
       <Pila>
         <Maso startDrawing={startStuff} />
-        <p>
-          {dQ && hQ && sQ && cQ
-            ? `Game Finished, remaining cards: ${remaining}`
-            : `Remaining Cards: ${remaining}`}
-        </p>
-        <Button
-          onClick={() => {
-            stopStuff();
-            dispatch(returnDeck());
-          }}
-        >
-          Restart
-        </Button>
+        {gameFinished && <h3>Awesome 4 Queen!</h3>}
+        <p>Remaining Cards: {remaining}</p>
+        {gameFinished && (
+          <Button
+            onClick={() => {
+              stopStuff();
+              dispatch(returnDeck());
+            }}
+          >
+            Restart
+          </Button>
+        )}
       </Pila>
       {suits.map((el) => (
         <Pila key={nanoid()}>
@@ -53,6 +55,7 @@ const App = () => {
               index={index}
               alt={card.value}
               key={nanoid()}
+              found={card.found}
             >
               {card.value}
             </Card>

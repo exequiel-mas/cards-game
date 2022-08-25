@@ -5,10 +5,16 @@ const Board = styled.div`
   box-sizing: border-box;
   padding: 2rem;
   background-color: #4075bf;
-  height: 100vh;
+  min-height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr, 1fr;
+    grid-template-rows: 1fr;
+    padding: 1rem;
+  }
 `;
 
 export default Board;

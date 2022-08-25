@@ -31,11 +31,11 @@ const App = () => {
     <Board>
       <Pila>
         <Maso startDrawing={startStuff} />
-        <h3>
+        <p>
           {dQ && hQ && sQ && cQ
             ? `Game Finished, remaining cards: ${remaining}`
             : `Remaining Cards: ${remaining}`}
-        </h3>
+        </p>
         <Button
           onClick={() => {
             stopStuff();

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Board = styled.div`
+  font-family: "Roboto", sans-serif;
   box-sizing: border-box;
   padding: 2rem;
   background-color: #4075bf;

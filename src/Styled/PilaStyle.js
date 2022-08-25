@@ -8,8 +8,9 @@ const PilaStyle = styled.div`
   flex-direction: column;
   min-width: 170px;
 
-  h3 {
+  p {
     color: white;
+    font-size: 1.3rem;
   }
 `;
 

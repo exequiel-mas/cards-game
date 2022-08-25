@@ -15,7 +15,7 @@ var interval = null;
 
 const App = () => {
   const dispatch = useDispatch();
-  const { gameFinished, remaining, suits } = usePartStates();
+  const { gameFinished, remaining, suits, errorMsg } = usePartStates();
 
   useEffect(() => {
     dispatch(getNewDeck());
@@ -35,6 +35,7 @@ const App = () => {
       <Pila>
         <Maso startDrawing={startStuff} />
         {gameFinished && <h3>Awesome 4 Queen!</h3>}
+        {errorMsg && <p>Lost connection</p>}
         <p>Remaining Cards: {remaining}</p>
         {gameFinished && (
           <Button

@@ -7,11 +7,13 @@ export function usePartStates() {
   const clubs = useSelector((state) => state.draw.clubs);
   const spades = useSelector((state) => state.draw.spades);
   const remaining = useSelector((state) => state.draw.remaining);
+  const errorMsg = useSelector((state) => state.draw.error);
   const suits = [diamonds, hearts, clubs, spades];
 
   return {
     gameFinished,
     remaining,
     suits,
+    errorMsg,
   };
 }

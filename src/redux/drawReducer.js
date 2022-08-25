@@ -2,7 +2,7 @@ import axios from "axios";
 
 const dataState = {
   card: null,
-  error: false,
+  error: null,
   loading: false,
   hearts: [],
   diamonds: [],
@@ -57,7 +57,12 @@ export function drawCard() {
           pileName: response.data.cards[0].suit.toLowerCase(),
         });
       })
-      .catch((error) => dispatch({ type: "GET_CARD_ERROR", payload: error }))
+      .catch((error) =>
+        dispatch({
+          type: "GET_CARD_ERROR",
+          payload: error ? error.message : null,
+        })
+      )
       .finally(() => dispatch({ type: "GET_CARD_LOADING", payload: false }));
   };
 }
@@ -75,7 +80,12 @@ export function returnDeck() {
           type: "RETURN_DECK",
         });
       })
-      .catch((error) => dispatch({ type: "GET_CARD_ERROR", payload: error }))
+      .catch((error) =>
+        dispatch({
+          type: "GET_CARD_ERROR",
+          payload: error ? error.message : null,
+        })
+      )
       .finally(() => dispatch({ type: "GET_CARD_LOADING", payload: false }));
   };
 }

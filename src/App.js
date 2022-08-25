@@ -23,7 +23,9 @@ const App = () => {
 
   const stopStuff = () => clearInterval(interval);
   const startStuff = () =>
-    (interval = setInterval(() => dispatch(drawCard()), 2000));
+    !interval
+      ? (interval = setInterval(() => dispatch(drawCard()), 1000))
+      : clearInterval(interval);
 
   return (
     <Board>
@@ -31,8 +33,8 @@ const App = () => {
         <Maso startDrawing={startStuff} />
         <h3>
           {dQ && hQ && sQ && cQ
-            ? "Terminó el juego"
-            : `Te quedan ${remaining} cartas`}
+            ? `Game Finished, remaining cards: ${remaining}`
+            : `Remaining Cards: ${remaining}`}
         </h3>
         <Button
           onClick={() => {

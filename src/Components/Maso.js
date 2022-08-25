@@ -9,4 +9,4 @@ const Maso = ({ startDrawing }) => {
   );
 };
 
-export default Maso;
+export default React.memo(Maso);
